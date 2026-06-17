@@ -30,23 +30,24 @@ export function activate(context: vscode.ExtensionContext) {
         currentPanel.webview.html = `<html><body><h2>Analyzing your code...</h2></body></html>`;
 
         try {
-            const apiKey = process.env.GEMINI_API_KEY || "Your_API_Key";
+            const apiKey = process.env.GEMINI_API_KEY || "Your_API_KEY";
             const genAI = new GoogleGenerativeAI(apiKey);
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
             const prompt = `
-            You are an expert programming mentor. Review the following code.
-            Return ONLY raw HTML. Do NOT use markdown.
-            
-            <p><strong>Time Complexity:</strong> [Calculate]</p>
-            <p><strong>Space Complexity:</strong> [Calculate]</p>
-            <hr style="border: 0; border-top: 1px solid #444;">
-            <p><strong>Mentor's Note:</strong> [Feedback in simple English]</p>
-            
+            You are an expert programming mentor. Review the code.
+            Return ONLY clean HTML using these specific classes: 
+            - Use <span class="complexity-tag"> for complexity values.
+
+            HTML format:
+            <p><strong>Time Complexity:</strong> <span class="complexity-tag">[Value]</span></p>
+            <p><strong>Space Complexity:</strong> <span class="complexity-tag">[Value]</span></p>
+            <hr>
+            <p><strong>Mentor's Note:</strong> [Feedback]</p>
+
             Code:
             ${text}
             `;
-
             const result = await model.generateContent(prompt);
             const responseText = result.response.text();
 
