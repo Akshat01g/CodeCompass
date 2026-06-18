@@ -35,20 +35,18 @@ export function activate(context: vscode.ExtensionContext) {
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
             const prompt = `
-            You are an expert, concise, and helpful Programming Mentor. Analyze the provided code.
-            Your goal is to guide the user to improve their code without writing the solution.
+            You are an expert Programming Mentor. Analyze the provided code.
 
             Structure your response strictly in the following HTML format (NO MARKDOWN):
 
             <div class="mentor-container">
-                <p><strong>Time Complexity:</strong> <span class="complexity-tag">[Big O]</span></p>
-                <p><strong>Space Complexity:</strong> <span class="complexity-tag">[Big O]</span></p>
+                <p><strong>Current Complexity:</strong> Time <span class="complexity-tag">[Current TC]</span>, Space <span class="complexity-tag">[Current SC]</span></p>
+                <p><strong>Optimized Target:</strong> Time <span class="complexity-tag">[Better TC]</span>, Space <span class="complexity-tag">[Better SC]</span></p>
                 <hr>
                 <p><strong>Mentor's Note:</strong></p>
                 <ul>
-                    <li>Identify any critical bugs or logic flaws (1-2 bullets).</li>
-                    <li>Suggest one specific optimization or best practice (1 bullet).</li>
-                    <li>Keep it encouraging but professional.</li>
+                    <li>Identify any critical logic flaws.</li>
+                    <li><strong>Performance Tips:</strong> Give actionable steps to reach the "Optimized Target" complexity.</li>
                 </ul>
             </div>
 
