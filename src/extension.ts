@@ -35,17 +35,24 @@ export function activate(context: vscode.ExtensionContext) {
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
             const prompt = `
-            You are an expert programming mentor. Review the code.
-            Return ONLY clean HTML using these specific classes: 
-            - Use <span class="complexity-tag"> for complexity values.
+            You are an expert, concise, and helpful Programming Mentor. Analyze the provided code.
+            Your goal is to guide the user to improve their code without writing the solution.
 
-            HTML format:
-            <p><strong>Time Complexity:</strong> <span class="complexity-tag">[Value]</span></p>
-            <p><strong>Space Complexity:</strong> <span class="complexity-tag">[Value]</span></p>
-            <hr>
-            <p><strong>Mentor's Note:</strong> [Feedback]</p>
+            Structure your response strictly in the following HTML format (NO MARKDOWN):
 
-            Code:
+            <div class="mentor-container">
+                <p><strong>Time Complexity:</strong> <span class="complexity-tag">[Big O]</span></p>
+                <p><strong>Space Complexity:</strong> <span class="complexity-tag">[Big O]</span></p>
+                <hr>
+                <p><strong>Mentor's Note:</strong></p>
+                <ul>
+                    <li>Identify any critical bugs or logic flaws (1-2 bullets).</li>
+                    <li>Suggest one specific optimization or best practice (1 bullet).</li>
+                    <li>Keep it encouraging but professional.</li>
+                </ul>
+            </div>
+
+            Code to review:
             ${text}
             `;
             const result = await model.generateContent(prompt);
