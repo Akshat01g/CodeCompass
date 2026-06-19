@@ -13,12 +13,22 @@
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "codecompass.reviewCode",
-        "title": "CodeCompass: Review My Code"
-      }
-    ]
-  },
+        {
+            "command": "codecompass.reviewCode",
+            "title": "CodeCompass: Review My Code",
+            "icon": "$(sparkle)"
+        }
+    ],
+    "menus": {
+        "editor/title": [
+            {
+                "command": "codecompass.reviewCode",
+                "group": "navigation",
+                "when": "editorTextFocus"
+            }
+        ]
+    }
+},
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
